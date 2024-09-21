@@ -1,0 +1,14 @@
+# postgresql16/templates/postgresql.conf.j2
+
+# Archivo de configuración de PostgreSQL
+
+listen_addresses = '{{ postgresql_listen_addresses }}'  # Direcciones en las que PostgreSQL escuchará
+port = {{ postgresql_port }}
+max_connections = 100
+shared_buffers = 128MB
+timezone = 'UTC'
+lc_messages = '{{ postgresql_locale }}'
+lc_monetary = '{{ postgresql_locale }}'
+lc_numeric = '{{ postgresql_locale }}'
+lc_time = '{{ postgresql_locale }}'
+default_text_search_config = 'pg_catalog.english'

@@ -1,0 +1,3 @@
+CREATE USER hibuser PASSWORD '{{ db_hibernate_password }}';
+CREATE DATABASE hibernate WITH OWNER = hibuser ENCODING = 'UTF8' TABLESPACE = pg_default;
+GRANT ALL PRIVILEGES ON DATABASE hibernate to hibuser;

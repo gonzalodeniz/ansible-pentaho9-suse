@@ -1,0 +1,11 @@
+---
+# Ejecutar el playbook de Pentaho
+
+# Instalar Pentaho
+- import_tasks: pentaho_install.yml
+
+# Configurar la base de datos de Pentaho
+- import_tasks: pentaho_bbdd/hibernate.yml
+- import_tasks: pentaho_bbdd/jackrabbit.yml
+- import_tasks: pentaho_bbdd/quartz.yml
+

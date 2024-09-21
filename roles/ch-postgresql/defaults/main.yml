@@ -1,0 +1,32 @@
+# Instala PostgreSQL
+POSTGRESS_VERSION: 16
+
+# PostgreSQL Root User Configuration
+POSTGRES_HOST: "localhost"
+POSTGRES_PORT: "5432"
+POSTGRES_USER: "postgres"
+POSTGRES_PASSWORD: "postgres"
+
+# PostgreSQL Database Configuration
+PENTAHO_DB_JCR_NAME: "jackrabbit"
+PENTAHO_DB_JCR_USER: "jcr_user"
+PENTAHO_DB_JCR_PASSWORD: "jcr_user"
+
+PENTAHO_DB_QUARTZ_NAME: "quartz"
+PENTAHO_DB_QUARTZ_USER: "pentaho_user"
+PENTAHO_DB_QUARTZ_PASSWORD: "pentaho_user"
+
+PENTAHO_DB_HIBERNATE_NAME: "hibernate"
+PENTAHO_DB_HIBERNATE_USER: "hibuser"
+PENTAHO_DB_HIBERNATE_PASSWORD: "hibuser"
+
+
+
+
+# postgresql_repo_url: "https://download.postgresql.org/pub/repos/zypp/{{ postgresql_version }}/suse/sles-$releasever-$basearch"                      
+# postgresql_packages:
+#   - postgresql${postgresql_version}-server
+#   - postgresql${postgresql_version}
+# postgresql_data_dir: "/var/lib/pgsql/${postgresql_version}/data"
+# postgresql_conf_dir: "/var/lib/pgsql/${postgresql_version}/data"
+# postgresql_service: "postgresql-${postgresql_version}"

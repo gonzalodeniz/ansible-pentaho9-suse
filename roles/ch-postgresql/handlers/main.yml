@@ -1,0 +1,6 @@
+# postgresql16/handlers/main.yml
+---
+- name: Reiniciar PostgreSQL
+  ansible.builtin.systemd:
+    name: postgresql
+    state: restarted

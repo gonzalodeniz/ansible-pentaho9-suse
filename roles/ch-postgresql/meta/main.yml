@@ -1,0 +1,15 @@
+# postgresql16/meta/main.yml
+---
+galaxy_info:
+  author: "Gonzalo Déniz"
+  description: "Rol de Ansible para instalar PostgreSQL 16 en SUSE 15.6"
+  company: "Inerza"
+  license: MIT
+  min_ansible_version: "2.9"
+
+  platforms:
+    - name: SUSE
+      versions:
+        - "15.6"
+
+dependencies: []

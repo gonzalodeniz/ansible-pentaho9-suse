@@ -1,0 +1,82 @@
+# Description: Instalación de Pentaho Server
+---
+- name: Crear el grupo pentaho
+  group:
+    name: pentaho
+    state: present
+
+- name: Crear el usuario pentaho con su directorio home
+  user:
+    name: pentaho
+    home: /home/pentaho
+    create_home: yes
+    group: pentaho
+    state: present
+
+- name: Crear directorio de instalación
+  file:
+    path: /opt/pentaho
+    state: directory
+    owner: pentaho
+    group: pentaho
+    mode: '0755'
+
+- name: Instalar java y unzip
+  become: yes
+  zypper:
+    name:
+      - java-11-openjdk
+      - java-11-openjdk-devel
+      - unzip
+    state: present
+
+- name: Configurar JAVA_HOME y PENTAHO_JAVA_HOME en /etc/profile.d/pentaho.sh
+  copy:
+    dest: /etc/profile.d/pentaho.sh
+    content: |
+      export JAVA_HOME="/usr/lib/jvm/java-openjdk"
+      export PENTAHO_JAVA_HOME=$JAVA_HOME
+      export PATH=$JAVA_HOME/bin:$PATH
+    owner: root
+    group: root
+    mode: '0744'    
+
+
+- name: Verificar si la carpeta /opt/pentaho/pentaho-server existe
+  stat:
+    path: /opt/pentaho/pentaho-server
+  register: pentaho_server_folder
+
+- name: Copiar el archivo de Pentaho al servidor si no existe
+  copy:
+    src: "{{ PENTAHO_ZIP }}"
+    dest: /opt/pentaho/
+    mode: '0644'
+    owner: pentaho
+    group: pentaho
+  when: not pentaho_server_folder.stat.exists
+
+- name: Descomprimir Pentaho
+  unarchive:
+    src: /opt/pentaho/{{ PENTAHO_ZIP }}
+    dest: /opt/pentaho/
+    remote_src: yes
+    owner: pentaho
+    group: pentaho
+  when: not pentaho_server_folder.stat.exists    
+  
+- name: Borrar el archivo ZIP de Pentaho
+  file:
+    path: "/opt/pentaho/{{ PENTAHO_ZIP }}"
+    state: absent
+
+- name: Cambia el nombre a promptuser.sh
+  command: mv /opt/pentaho/pentaho-server/promptuser.sh /opt/pentaho/pentaho-server/promptuser.sh.bak
+  args:
+    creates: /opt/pentaho/pentaho-server/promptuser.sh.bak
+
+- name: Cambiar permisos del script de inicio
+  file:
+    path: /opt/pentaho/pentaho-server/start-pentaho.sh
+    mode: '0755'
+

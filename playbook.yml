@@ -1,0 +1,6 @@
+- hosts: all
+  become: yes  
+  roles:
+    - role: ch-postgresql
+      when: lookup('env', 'POSTGRES_INSTALL_LOCAL') == 'true'
+    - ch-pentaho

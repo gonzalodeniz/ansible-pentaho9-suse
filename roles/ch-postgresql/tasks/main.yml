@@ -1,0 +1,33 @@
+---
+- name: Instalar PostgreSQL Server
+  ansible.builtin.zypper:
+    name: postgresql{{ POSTGRESS_VERSION }}-server
+    state: present
+
+- name: Iniciar el servicio de PostgreSQL
+  ansible.builtin.systemd:
+    name: postgresql
+    state: started
+
+- name: Habilitar el servicio de PostgreSQL en el arranque
+  ansible.builtin.systemd:
+    name: postgresql
+    enabled: 
+    
+- name: Cambiar la contraseña del usuario postgres
+  ansible.builtin.shell: |
+    sudo -u postgres psql -c "ALTER USER {{ POSTGRES_USER }} PASSWORD '{{ POSTGRES_PASSWORD }}';"  
+
+- name: Copiar el archivo pg_hba.conf desde la plantilla
+  ansible.builtin.template:
+    src: pg_hba.conf.j2
+    dest:  /var/lib/pgsql/data/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: '0644'
+  notify: Reiniciar PostgreSQL
+
+- name: Forzar ejecución de handlers en este punto
+  meta: flush_handlers
+
+
